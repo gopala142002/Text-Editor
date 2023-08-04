@@ -4,6 +4,7 @@ export default function TextForm(props) {
     const handleUpClick=()=>{
         let newText=text.toLocaleUpperCase();
         setText(newText);
+        props.showAlert("Converted to Uppercase","success");
     }
     const handleOnChange=(event)=>{
         setText(event.target.value);
@@ -11,6 +12,18 @@ export default function TextForm(props) {
     const handleLoClick=()=>{
       let newText=text.toLocaleLowerCase();
       setText(newText);
+      props.showAlert("Converted to Lowercase","success");
+    }
+    const handleClearClick=()=>{
+      setText("");
+      props.showAlert("Text Cleared","success");
+    }
+    const handleCopyClick=()=>{
+        let newText=document.getElementById("myBox");
+        newText.select();
+        newText.setSelectionRange(0,9999);
+        navigator.clipboard.writeText(newText.value);
+        props.showAlert("Copied to ClipBoard","success");
     }
     const getnumWords=(text)=>{
       let arr=text.split(" ");
@@ -25,10 +38,12 @@ export default function TextForm(props) {
       <div className="container" style={{color:props.mode==='dark'?'white':'#042743'}}>
           <h1>{props.heading}</h1>
           <div className="mb-3">
-          <textarea className="form-control" onChange={handleOnChange} style={{backgroundColor:props.mode==='light'?'white':'grey',color:props.mode==='dark'?'white':'042743'}} value={text} id="myBox" rows="8"></textarea>
+          <textarea className="form-control" onChange={handleOnChange} style={{backgroundColor:props.mode==='light'?'white':'grey',color:props.mode==='dark'?'white':'#042743'}} value={text} id="myBox" rows="8"></textarea>
           </div>
           <button className="btn btn-primary mx-1" onClick={handleUpClick}>Convert to UpperCase</button>
           <button className="btn btn-primary mx-1" onClick={handleLoClick}>Convert to LowerCase</button>
+          <button className="btn btn-primary mx-1" onClick={handleCopyClick}>Copy Text</button>
+          <button className="btn btn-primary mx-1" onClick={handleClearClick}>Clear Text</button>
       </div>
       <div className="container my-3" style={{color:props.mode==='dark'?'white':'#042743'}}>
         <h2>Your text Summary</h2>
